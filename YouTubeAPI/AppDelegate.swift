@@ -4,8 +4,9 @@
 //
 //  Created by Matheus Pacheco Fusco on 10/03/17.
 //  Copyright © 2017 Matheus Pacheco Fusco. All rights reserved.
-//
-
+//CHAVE API YOUTUBE: AIzaSyAqW_myJTyIvVrr03ubsQu87cc1F38FS80
+//CHAVE CANAL: UCbNWIQcHEj6Y1g467UyPpBQ
+//video teste: L8B-O6Ve7mI
 import UIKit
 
 @UIApplicationMain
