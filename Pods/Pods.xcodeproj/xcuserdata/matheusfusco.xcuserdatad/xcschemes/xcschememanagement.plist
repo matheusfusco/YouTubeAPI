@@ -4,7 +4,22 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-YouTubeAPI.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>CC4661E03D8B9A0B999FDCD3D4B057B4</key>
+		<key>19356DFFDA11E681962D263FA20E3135</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FC8FB88D63F360793C017C61BDC47324</key>
+		<key>4B2F4A76A90AE80FE034AE4C247CAE86</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DD0540F0259F440F5AE853E951F7F2E7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DE0A0C04A0D80827CAE23A81675B5F71</key>
 		<dict>
 			<key>primary</key>
 			<true/>

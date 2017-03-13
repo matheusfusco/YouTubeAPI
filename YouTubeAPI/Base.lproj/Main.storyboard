@@ -23,6 +23,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jxL-jP-ng7">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zGE-8S-OST">
+                                        <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                        <color key="color" red="0.078431372550000003" green="0.1215686275" blue="0.47058823529999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="zGE-8S-OST" firstAttribute="centerY" secondItem="jxL-jP-ng7" secondAttribute="centerY" id="JQy-Tm-Q4c"/>
+                                    <constraint firstItem="zGE-8S-OST" firstAttribute="centerX" secondItem="jxL-jP-ng7" secondAttribute="centerX" id="yhY-VT-mLh"/>
+                                </constraints>
+                            </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for something (channel, video)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l1z-LH-blM">
                                 <rect key="frame" x="16" y="72" width="343" height="30"/>
                                 <nil key="textColor"/>
@@ -40,7 +54,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="116"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rpy-sw-fW3" id="F33-tv-nxD">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="115"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="116"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SmH-pm-IJl">
@@ -76,11 +90,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="videoCell" rowHeight="116" id="v8n-dG-A4o">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="videoCell" rowHeight="116" id="v8n-dG-A4o" customClass="VideoTableViewCell" customModule="YouTubeAPI" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="144" width="375" height="116"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v8n-dG-A4o" id="zGo-cT-kZw">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="115"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="116"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mUK-lm-D5R">
@@ -90,13 +104,13 @@
                                                         <constraint firstAttribute="height" constant="100" id="ryp-Nn-lww"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bsQ-NQ-f9g">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="bsQ-NQ-f9g">
                                                     <rect key="frame" x="8" y="8" width="251" height="24"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5L-3B-JUW">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="p5L-3B-JUW">
                                                     <rect key="frame" x="8" y="37" width="251" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="Avenir-LightOblique" family="Avenir" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -116,6 +130,11 @@
                                                 <constraint firstAttribute="topMargin" secondItem="bsQ-NQ-f9g" secondAttribute="top" id="z4b-bu-sge"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="descriptionLabel" destination="p5L-3B-JUW" id="maq-U6-zc8"/>
+                                            <outlet property="thumbnailImgView" destination="mUK-lm-D5R" id="cls-zb-Rj0"/>
+                                            <outlet property="titleLabel" destination="bsQ-NQ-f9g" id="zNz-r5-gsg"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -143,20 +162,6 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="q7s-7g-E7k"/>
                                 </items>
                             </toolbar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jxL-jP-ng7">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zGE-8S-OST">
-                                        <rect key="frame" x="169" y="315" width="37" height="37"/>
-                                        <color key="color" red="0.078431372550000003" green="0.1215686275" blue="0.47058823529999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="zGE-8S-OST" firstAttribute="centerY" secondItem="jxL-jP-ng7" secondAttribute="centerY" id="JQy-Tm-Q4c"/>
-                                    <constraint firstItem="zGE-8S-OST" firstAttribute="centerX" secondItem="jxL-jP-ng7" secondAttribute="centerX" id="yhY-VT-mLh"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -182,7 +187,7 @@
                         <outlet property="searchTextField" destination="l1z-LH-blM" id="wZO-Vw-KGO"/>
                         <outlet property="videosTableView" destination="8tO-gC-3uE" id="AXK-fC-R7N"/>
                         <outlet property="waitingView" destination="jxL-jP-ng7" id="4IF-Ty-UrK"/>
-                        <segue destination="h1B-qR-2G7" kind="show" id="cEZ-ox-dRG"/>
+                        <segue destination="h1B-qR-2G7" kind="show" identifier="playVideo" id="cEZ-ox-dRG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

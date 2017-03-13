@@ -7,4 +7,7 @@ target 'YouTubeAPI' do
 
   # Pods for YouTubeAPI
 	pod 'youtube-ios-player-helper'
+	pod 'SwiftyJSON'
+	pod 'Alamofire'
+	pod 'SDWebImage'
 end

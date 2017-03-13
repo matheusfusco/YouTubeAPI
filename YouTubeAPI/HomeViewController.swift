@@ -8,10 +8,11 @@
 
 import UIKit
 import youtube_ios_player_helper
+import SwiftyJSON
 
 class HomeViewController: UIViewController {
     //MARK: - Variables
-    
+    var videos = [YoutubeVideoModel]()
     
     //MARK: - IBOutlets
     @IBOutlet weak var searchTextField: UITextField!
@@ -22,7 +23,18 @@ class HomeViewController: UIViewController {
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let manager = APIManager()
+        manager.getFrom(APIManager.youtubeAPI_URL, parameters: APIManager.youtubeParameters) { (result) in
+            print("\(result)")
+            
+            let arrayVideos = JSON(data: result as! Data)["items"].arrayValue
+            for video in arrayVideos {
+                let model = YoutubeVideoModel(dataJSON: video)
+                print("--> \(model.title)")
+                self.videos.append(model)
+            }
+            self.videosTableView.reloadData()
+        }
     }
     
     //MARK: - IBActions
@@ -48,8 +60,9 @@ extension HomeViewController : UITableViewDelegate {
 //MARK: - TableView Datasource Methods
 extension HomeViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "")
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "videoCell") as! VideoTableViewCell
+        cell.configureVideoInfo(videos[indexPath.row])
         return cell
     }
     
@@ -58,7 +71,11 @@ extension HomeViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return videos.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 116
     }
 }
 
