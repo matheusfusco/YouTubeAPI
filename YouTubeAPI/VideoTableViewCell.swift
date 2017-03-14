@@ -8,12 +8,17 @@
 
 import UIKit
 import SDWebImage
+import youtube_ios_player_helper
+
 class VideoTableViewCell: UITableViewCell {
 
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var thumbnailImgView: UIImageView!
-    var video = YoutubeVideoModel()
+    @IBOutlet weak var playerView: YTPlayerView!
+    @IBOutlet weak var ytIndicatorView: UIActivityIndicatorView!
+    
+    var video = VideoModel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,8 +31,15 @@ class VideoTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureVideoInfo(_ video : YoutubeVideoModel) {
+    func configureVideoInfo(_ video : VideoModel) {
         self.video = video
+        
+        playerView.delegate = self
+        
+        if let videoID = self.video.videoID {
+            playerView.load(withVideoId: videoID)
+        }
+        
         if let videoTitle = self.video.title {
             titleLabel.text = videoTitle
         }
@@ -41,4 +53,47 @@ class VideoTableViewCell: UITableViewCell {
         }
     }
 
+}
+
+//MARK: - YTPlayerView Delegate Methods
+extension VideoTableViewCell : YTPlayerViewDelegate {
+    func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
+        switch state {
+            
+        case .buffering:
+            print("buffering")
+            self.ytIndicatorView.startAnimating()
+            break
+            
+        case .ended:
+            print("ended")
+            break
+            
+        case .paused:
+            print("paused")
+            break
+            
+        case .playing:
+            print("playing")
+            self.ytIndicatorView.stopAnimating()
+            break
+            
+        case .queued:
+            print("queued")
+            break
+            
+        case .unknown:
+            print("unkown")
+            break
+            
+        case .unstarted:
+            print("unstarted")
+            break
+        }
+    }
+    
+    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
+        //print("isReady")
+        self.ytIndicatorView.stopAnimating()
+    }
 }

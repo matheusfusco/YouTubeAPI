@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,21 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jxL-jP-ng7">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zGE-8S-OST">
-                                        <rect key="frame" x="169" y="315" width="37" height="37"/>
-                                        <color key="color" red="0.078431372550000003" green="0.1215686275" blue="0.47058823529999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="zGE-8S-OST" firstAttribute="centerY" secondItem="jxL-jP-ng7" secondAttribute="centerY" id="JQy-Tm-Q4c"/>
-                                    <constraint firstItem="zGE-8S-OST" firstAttribute="centerX" secondItem="jxL-jP-ng7" secondAttribute="centerX" id="yhY-VT-mLh"/>
-                                </constraints>
-                            </view>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for something (channel, video)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l1z-LH-blM">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for something (playlist, video)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l1z-LH-blM">
                                 <rect key="frame" x="16" y="72" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -50,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="110" width="375" height="513"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="channelCell" rowHeight="116" id="rpy-sw-fW3">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="playlistCell" rowHeight="116" id="rpy-sw-fW3" customClass="PlaylistTableViewCell" customModule="YouTubeAPI" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="116"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rpy-sw-fW3" id="F33-tv-nxD">
@@ -64,15 +49,15 @@
                                                         <constraint firstAttribute="width" constant="100" id="BoS-8R-aUF"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Channel Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lJ-Av-Sgf">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Playlist Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lJ-Av-Sgf">
                                                     <rect key="frame" x="116" y="7" width="243" height="24"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Channel Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyo-Uf-D3C">
-                                                    <rect key="frame" x="116" y="37" width="243" height="23.5"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-LightOblique" family="Avenir" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Playlist Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyo-Uf-D3C">
+                                                    <rect key="frame" x="116" y="37" width="243" height="20.5"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-LightOblique" family="Avenir" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -89,6 +74,11 @@
                                                 <constraint firstAttribute="leadingMargin" secondItem="SmH-pm-IJl" secondAttribute="leading" id="yHu-tB-2Oz"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="playlistDescriptionLabel" destination="yyo-Uf-D3C" id="zqN-dh-eeN"/>
+                                            <outlet property="playlistTitleLabel" destination="3lJ-Av-Sgf" id="Ass-di-KYb"/>
+                                            <outlet property="thumbnailImgView" destination="SmH-pm-IJl" id="xNc-fn-c3G"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="videoCell" rowHeight="116" id="v8n-dG-A4o" customClass="VideoTableViewCell" customModule="YouTubeAPI" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="144" width="375" height="116"/>
@@ -110,14 +100,28 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="p5L-3B-JUW">
-                                                    <rect key="frame" x="8" y="37" width="251" height="23.5"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-LightOblique" family="Avenir" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5L-3B-JUW">
+                                                    <rect key="frame" x="8" y="37" width="251" height="20.5"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-LightOblique" family="Avenir" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TRh-EU-Fkw" customClass="YTPlayerView">
+                                                    <rect key="frame" x="267" y="8" width="100" height="100"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="9d2-5K-zMQ"/>
+                                                        <constraint firstAttribute="height" constant="100" id="pZE-Gb-evl"/>
+                                                    </constraints>
+                                                </view>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="YM6-CQ-M38">
+                                                    <rect key="frame" x="299" y="40" width="37" height="37"/>
+                                                    <color key="color" red="0.078431372550000003" green="0.1215686275" blue="0.47058823529999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="YM6-CQ-M38" firstAttribute="centerY" secondItem="TRh-EU-Fkw" secondAttribute="centerY" id="2Zp-Ef-E5s"/>
+                                                <constraint firstItem="TRh-EU-Fkw" firstAttribute="centerY" secondItem="mUK-lm-D5R" secondAttribute="centerY" id="4OV-5f-uue"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="mUK-lm-D5R" secondAttribute="trailing" id="6vp-Rb-ghO"/>
                                                 <constraint firstAttribute="topMargin" secondItem="mUK-lm-D5R" secondAttribute="top" id="AlE-QU-PO8"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="bsQ-NQ-f9g" secondAttribute="leading" id="FHH-jV-fnc"/>
@@ -125,15 +129,19 @@
                                                 <constraint firstItem="mUK-lm-D5R" firstAttribute="leading" secondItem="bsQ-NQ-f9g" secondAttribute="trailing" constant="8" id="ZA3-hl-mqx"/>
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="p5L-3B-JUW" secondAttribute="bottom" id="aqg-If-puu"/>
                                                 <constraint firstItem="p5L-3B-JUW" firstAttribute="top" secondItem="bsQ-NQ-f9g" secondAttribute="bottom" constant="5" id="bww-l1-ecm"/>
+                                                <constraint firstItem="YM6-CQ-M38" firstAttribute="centerX" secondItem="TRh-EU-Fkw" secondAttribute="centerX" id="cRS-So-wdm"/>
                                                 <constraint firstItem="mUK-lm-D5R" firstAttribute="leading" secondItem="p5L-3B-JUW" secondAttribute="trailing" constant="8" id="fBr-Jg-gPg"/>
+                                                <constraint firstItem="TRh-EU-Fkw" firstAttribute="centerX" secondItem="mUK-lm-D5R" secondAttribute="centerX" id="kMF-SO-Qob"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="mUK-lm-D5R" secondAttribute="bottom" constant="-1" id="y30-cR-qLO"/>
                                                 <constraint firstAttribute="topMargin" secondItem="bsQ-NQ-f9g" secondAttribute="top" id="z4b-bu-sge"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="p5L-3B-JUW" id="maq-U6-zc8"/>
+                                            <outlet property="playerView" destination="TRh-EU-Fkw" id="7dY-tI-yFl"/>
                                             <outlet property="thumbnailImgView" destination="mUK-lm-D5R" id="cls-zb-Rj0"/>
                                             <outlet property="titleLabel" destination="bsQ-NQ-f9g" id="zNz-r5-gsg"/>
+                                            <outlet property="ytIndicatorView" destination="YM6-CQ-M38" id="M6J-KJ-bkJ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -151,7 +159,7 @@
                                             <rect key="frame" x="116" y="7" width="143" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
-                                                <segment title="Channels"/>
+                                                <segment title="Playlists"/>
                                                 <segment title="Videos"/>
                                             </segments>
                                             <connections>
@@ -162,6 +170,20 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="q7s-7g-E7k"/>
                                 </items>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jxL-jP-ng7">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zGE-8S-OST">
+                                        <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                        <color key="color" red="0.078431372550000003" green="0.1215686275" blue="0.47058823529999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="zGE-8S-OST" firstAttribute="centerY" secondItem="jxL-jP-ng7" secondAttribute="centerY" id="JQy-Tm-Q4c"/>
+                                    <constraint firstItem="zGE-8S-OST" firstAttribute="centerX" secondItem="jxL-jP-ng7" secondAttribute="centerX" id="yhY-VT-mLh"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -183,49 +205,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="D6n-FN-0Ue"/>
                     <connections>
-                        <outlet property="channelOrVideoSegmentedControl" destination="obM-FJ-NIU" id="khB-e0-0WY"/>
+                        <outlet property="playlistOrVideoSegmentedControl" destination="obM-FJ-NIU" id="qX0-2j-THk"/>
                         <outlet property="searchTextField" destination="l1z-LH-blM" id="wZO-Vw-KGO"/>
                         <outlet property="videosTableView" destination="8tO-gC-3uE" id="AXK-fC-R7N"/>
                         <outlet property="waitingView" destination="jxL-jP-ng7" id="4IF-Ty-UrK"/>
-                        <segue destination="h1B-qR-2G7" kind="show" identifier="playVideo" id="cEZ-ox-dRG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="333.60000000000002" y="68.815592203898049"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="yKV-1m-xZF">
-            <objects>
-                <viewController id="h1B-qR-2G7" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="xcG-Di-vjt"/>
-                        <viewControllerLayoutGuide type="bottom" id="3m7-zP-0NX"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="oGS-4V-3sS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3D5-mB-0RQ">
-                                <rect key="frame" x="0.0" y="146" width="375" height="375"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="3D5-mB-0RQ" secondAttribute="height" multiplier="1:1" id="Gxs-cK-6eV"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="3D5-mB-0RQ" firstAttribute="centerY" secondItem="oGS-4V-3sS" secondAttribute="centerY" id="Hdx-90-Jtr"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="3D5-mB-0RQ" secondAttribute="trailing" constant="-16" id="U1a-fy-rqF"/>
-                            <constraint firstItem="3D5-mB-0RQ" firstAttribute="leading" secondItem="oGS-4V-3sS" secondAttribute="leadingMargin" constant="-16" id="dTj-8N-My7"/>
-                            <constraint firstItem="3D5-mB-0RQ" firstAttribute="centerX" secondItem="oGS-4V-3sS" secondAttribute="centerX" id="dch-gg-At1"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CF3-a2-eDI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1132" y="68.815592203898049"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AUj-Zc-hxc">

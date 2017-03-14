@@ -1,29 +1,29 @@
 //
-//  YoutubeVideoModel.swift
+//  PlaylistModel.swift
 //  YouTubeAPI
 //
-//  Created by Matheus Pacheco Fusco on 13/03/17.
+//  Created by Matheus Pacheco Fusco on 14/03/17.
 //  Copyright © 2017 Matheus Pacheco Fusco. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import SwiftyJSON
 
-class YoutubeVideoModel : NSObject {
-    var videoID : String
+class PlaylistModel: NSObject {
+    var playlistID : String?
     var title : String?
-    var descr: String?
+    var descr : String?
     var thumbnail : String?
     
-    override init() {
-        videoID = ""
+    override init () {
+        playlistID = ""
         title = ""
         descr = ""
         thumbnail = ""
     }
     
     required init(dataJSON: JSON) {
-        videoID = (dataJSON["id"]["videoId"].string)!
+        playlistID = (dataJSON["id"].string)!
         title = (dataJSON["snippet"]["title"].string)!
         descr = (dataJSON["snippet"]["description"].string)!
         thumbnail = (dataJSON["snippet"]["thumbnails"]["high"]["url"].string)!

@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5E0824351E76E1D7004E9AC8 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0824341E76E1D7004E9AC8 /* APIManager.swift */; };
-		5E0824371E76E853004E9AC8 /* YoutubeVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0824361E76E853004E9AC8 /* YoutubeVideoModel.swift */; };
+		5E0824371E76E853004E9AC8 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0824361E76E853004E9AC8 /* VideoModel.swift */; };
 		5E0824391E77322C004E9AC8 /* VideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0824381E77322B004E9AC8 /* VideoTableViewCell.swift */; };
+		5E0824401E783518004E9AC8 /* PlaylistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E08243F1E783518004E9AC8 /* PlaylistModel.swift */; };
+		5E0824421E7835A7004E9AC8 /* YouTubeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0824411E7835A7004E9AC8 /* YouTubeManager.swift */; };
+		5E65AFE71E783AA30062BB29 /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E65AFE61E783AA30062BB29 /* PlaylistTableViewCell.swift */; };
 		5E71628F1E72F6E400B863B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E71628E1E72F6E400B863B2 /* AppDelegate.swift */; };
 		5E7162911E72F6E400B863B2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7162901E72F6E400B863B2 /* HomeViewController.swift */; };
 		5E7162941E72F6E400B863B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E7162921E72F6E400B863B2 /* Main.storyboard */; };
@@ -20,8 +23,11 @@
 
 /* Begin PBXFileReference section */
 		5E0824341E76E1D7004E9AC8 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
-		5E0824361E76E853004E9AC8 /* YoutubeVideoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeVideoModel.swift; sourceTree = "<group>"; };
+		5E0824361E76E853004E9AC8 /* VideoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
 		5E0824381E77322B004E9AC8 /* VideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTableViewCell.swift; sourceTree = "<group>"; };
+		5E08243F1E783518004E9AC8 /* PlaylistModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistModel.swift; sourceTree = "<group>"; };
+		5E0824411E7835A7004E9AC8 /* YouTubeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeManager.swift; sourceTree = "<group>"; };
+		5E65AFE61E783AA30062BB29 /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		5E71628B1E72F6E400B863B2 /* YouTubeAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouTubeAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E71628E1E72F6E400B863B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E7162901E72F6E400B863B2 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +61,42 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		5E08243C1E7832FA004E9AC8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5E0824361E76E853004E9AC8 /* VideoModel.swift */,
+				5E08243F1E783518004E9AC8 /* PlaylistModel.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		5E08243D1E7832FF004E9AC8 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				5E0824341E76E1D7004E9AC8 /* APIManager.swift */,
+				5E0824411E7835A7004E9AC8 /* YouTubeManager.swift */,
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
+		5E08243E1E783309004E9AC8 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5E7162901E72F6E400B863B2 /* HomeViewController.swift */,
+				5E0824431E7839E7004E9AC8 /* Cells */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		5E0824431E7839E7004E9AC8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5E0824381E77322B004E9AC8 /* VideoTableViewCell.swift */,
+				5E65AFE61E783AA30062BB29 /* PlaylistTableViewCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		5E7162821E72F6E400B863B2 = {
 			isa = PBXGroup;
 			children = (
@@ -77,10 +119,9 @@
 			isa = PBXGroup;
 			children = (
 				5E71628E1E72F6E400B863B2 /* AppDelegate.swift */,
-				5E7162901E72F6E400B863B2 /* HomeViewController.swift */,
-				5E0824341E76E1D7004E9AC8 /* APIManager.swift */,
-				5E0824361E76E853004E9AC8 /* YoutubeVideoModel.swift */,
-				5E0824381E77322B004E9AC8 /* VideoTableViewCell.swift */,
+				5E08243E1E783309004E9AC8 /* ViewControllers */,
+				5E08243D1E7832FF004E9AC8 /* Manager */,
+				5E08243C1E7832FA004E9AC8 /* Models */,
 				5E7162921E72F6E400B863B2 /* Main.storyboard */,
 				5E7162951E72F6E400B863B2 /* Assets.xcassets */,
 				5E7162971E72F6E400B863B2 /* LaunchScreen.storyboard */,
@@ -222,10 +263,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E0824421E7835A7004E9AC8 /* YouTubeManager.swift in Sources */,
+				5E65AFE71E783AA30062BB29 /* PlaylistTableViewCell.swift in Sources */,
 				5E0824351E76E1D7004E9AC8 /* APIManager.swift in Sources */,
+				5E0824401E783518004E9AC8 /* PlaylistModel.swift in Sources */,
 				5E7162911E72F6E400B863B2 /* HomeViewController.swift in Sources */,
 				5E71628F1E72F6E400B863B2 /* AppDelegate.swift in Sources */,
-				5E0824371E76E853004E9AC8 /* YoutubeVideoModel.swift in Sources */,
+				5E0824371E76E853004E9AC8 /* VideoModel.swift in Sources */,
 				5E0824391E77322C004E9AC8 /* VideoTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

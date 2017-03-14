@@ -11,17 +11,11 @@ import Alamofire
 
 class APIManager: NSObject {
     
-    static let youtubeAPI_URL = "https://www.googleapis.com/youtube/v3/search"
-    static let youtubeParameters = ["key": "AIzaSyCgrzeJDjlOyzgCy20FattbrKbcE8vMOSU", // Youtube API Key
-                                    "channelId": "UCbNWIQcHEj6Y1g467UyPpBQ", //Pernambucanas - https://www.youtube.com/user/casaspernambucanas/videos
-                                    "part": "snippet",
-                                    "order": "date",
-                                    "maxResults": "5"]
-    
     public func getFrom(_ url: String, parameters: Dictionary<String, Any>, completion: @escaping(Any?) -> Void) {
         Alamofire.request(url, method: .get, parameters: parameters)
         .validate()
         .responseJSON { (response) in
+            print("resp: \(response.request)")
             switch response.result {
             case .success:
                 completion(response.data)
