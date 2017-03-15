@@ -67,7 +67,10 @@ class YouTubeManager: NSObject {
         self.playlists.removeAll()
         
         manager.getFrom(YouTubeManager.searchPlayListsURL, parameters: parameters) { (result) in
-            let playlistsArray = JSON(data: result as! Data)["items"].arrayValue
+            
+            let json = JSON(data: result as! Data)
+            let playlistsArray = json["items"].arrayValue
+            
             for playlist in playlistsArray {
                 let model = PlaylistModel(dataJSON: playlist)
                 print("---> Playlist: \(model.title)")
