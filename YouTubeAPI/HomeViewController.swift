@@ -14,7 +14,9 @@ class HomeViewController: UIViewController {
     //MARK: - Variables
     var videos = [VideoModel]()
     var playlists = [PlaylistModel]()
+    var videosOnPlaylist = [VideoModel]()
     var ytManager = YouTubeManager()
+    var searchingPlaylist : Bool = false
     
     //MARK: - IBOutlets
     @IBOutlet weak var searchTextField: UITextField!
@@ -26,6 +28,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchingPlaylist = false
         
         ytManager.fetchAllPlaylists { (playlistsResult) in
             self.playlists = playlistsResult
@@ -38,6 +41,7 @@ class HomeViewController: UIViewController {
         }
         
         
+        
     }
     
     //MARK: - IBActions
@@ -45,6 +49,7 @@ class HomeViewController: UIViewController {
         switch playlistOrVideoSegmentedControl.selectedSegmentIndex {
         case 0: //Playlists
             print("load playlists")
+            searchingPlaylist = false
             break
             
         case 1: //Videos
@@ -74,16 +79,23 @@ extension HomeViewController : UITableViewDelegate {
         if playlistOrVideoSegmentedControl
             .selectedSegmentIndex == 0 {
             let selectedCell = tableView.cellForRow(at: indexPath) as! PlaylistTableViewCell
-            print("Selected Playlist: \(selectedCell.playlistTitleLabel.text)")
+            //print("Selected Playlist: \(selectedCell.playlistTitleLabel.text)")
             
+            searchingPlaylist = true
+            self.waitingView.isHidden = false
+            self.videosOnPlaylist.removeAll()
             ytManager.fetchAllVideosOnPlaylist(playlistID: selectedCell.playlist.playlistID!, completion: { (videosResult) in
-                print("Playlist videos: \(videosResult)")
+                //print("Playlist videos: \(videosResult)")
+                self.videosOnPlaylist = videosResult
+                self.playlistOrVideoSegmentedControl.selectedSegmentIndex = 1
+                self.videosTableView.reloadData()
+                self.waitingView.isHidden = true
             })
         }
         else if playlistOrVideoSegmentedControl.selectedSegmentIndex == 1 {
             let selectedCell = tableView.cellForRow(at: indexPath) as! VideoTableViewCell
             selectedCell.playerView.playVideo()
-            print("Selected Video: \(selectedCell.titleLabel.text)")
+            print("Selected Video: \(selectedCell.video.videoID)")
         }
     }
 }
@@ -91,8 +103,6 @@ extension HomeViewController : UITableViewDelegate {
 //MARK: - TableView Datasource Methods
 extension HomeViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-
         
         switch playlistOrVideoSegmentedControl.selectedSegmentIndex {
         case 0: //Playlists
@@ -102,7 +112,13 @@ extension HomeViewController : UITableViewDataSource {
             
         case 1: //Videos
             let videoCell = tableView.dequeueReusableCell(withIdentifier: "videoCell") as! VideoTableViewCell
-            videoCell.configureVideoInfo(videos[indexPath.row])
+            if searchingPlaylist {
+                print("videoID: \(videosOnPlaylist[indexPath.row].videoID)")
+                videoCell.configureVideoInfo(videosOnPlaylist[indexPath.row])
+            }
+            else {
+                videoCell.configureVideoInfo(videos[indexPath.row])
+            }
             return videoCell
             
         default:
@@ -121,7 +137,12 @@ extension HomeViewController : UITableViewDataSource {
             return playlists.count
             
         case 1: //Videos
-            return videos.count
+            if searchingPlaylist {
+                return videosOnPlaylist.count
+            }
+            else{
+                return videos.count
+            }
             
         default:
             return 0

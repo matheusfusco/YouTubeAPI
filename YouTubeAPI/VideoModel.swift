@@ -27,7 +27,7 @@ class VideoModel : NSObject {
         if kind == "youtube#searchListResponse" {
             videoID = (dataJSON["id"]["videoId"].string)!
         }
-        else if kind == "youtube#playlistItem" {
+        else if kind == "youtube#playlistItemListResponse" {
             videoID = (dataJSON["snippet"]["resourceId"]["videoId"].string)!
         }
         
