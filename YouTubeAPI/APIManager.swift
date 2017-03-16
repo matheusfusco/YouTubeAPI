@@ -15,7 +15,7 @@ class APIManager: NSObject {
         Alamofire.request(url, method: .get, parameters: parameters)
         .validate()
         .responseJSON { (response) in
-            print("resp: \(response.request)")
+            print("request url: \(response.request)")
             switch response.result {
             case .success:
                 completion(response.data)

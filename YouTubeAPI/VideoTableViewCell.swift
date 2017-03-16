@@ -71,6 +71,7 @@ extension VideoTableViewCell : YTPlayerViewDelegate {
             
         case .paused:
             print("paused")
+            self.ytIndicatorView.stopAnimating()
             break
             
         case .playing:
@@ -93,7 +94,6 @@ extension VideoTableViewCell : YTPlayerViewDelegate {
     }
     
     func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-        //print("isReady")
         self.ytIndicatorView.stopAnimating()
     }
 }

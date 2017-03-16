@@ -30,18 +30,15 @@ class HomeViewController: UIViewController {
         
         searchingPlaylist = false
         
-        ytManager.fetchAllPlaylists { (playlistsResult) in
+        ytManager.fetchAllPlaylists(pageToken: "") { (playlistsResult) in
             self.playlists = playlistsResult
             
-            self.ytManager.fetchAllVideosOnChannel { (videosResult) in
+            self.ytManager.fetchAllVideosOnChannel(pageToken: "", completion: { (videosResult) in
                 self.videos = videosResult
                 self.videosTableView.reloadData()
                 self.waitingView.isHidden = true
-            }
+            })
         }
-        
-        
-        
     }
     
     //MARK: - IBActions
@@ -84,7 +81,7 @@ extension HomeViewController : UITableViewDelegate {
             searchingPlaylist = true
             self.waitingView.isHidden = false
             self.videosOnPlaylist.removeAll()
-            ytManager.fetchAllVideosOnPlaylist(playlistID: selectedCell.playlist.playlistID!, completion: { (videosResult) in
+            ytManager.fetchAllVideosOnPlaylist(playlistID: selectedCell.playlist.playlistID!, pageToken: "",completion: { (videosResult) in
                 //print("Playlist videos: \(videosResult)")
                 self.videosOnPlaylist = videosResult
                 self.playlistOrVideoSegmentedControl.selectedSegmentIndex = 1
@@ -113,7 +110,7 @@ extension HomeViewController : UITableViewDataSource {
         case 1: //Videos
             let videoCell = tableView.dequeueReusableCell(withIdentifier: "videoCell") as! VideoTableViewCell
             if searchingPlaylist {
-                print("videoID: \(videosOnPlaylist[indexPath.row].videoID)")
+                //print("videoID: \(videosOnPlaylist[indexPath.row].videoID)")
                 videoCell.configureVideoInfo(videosOnPlaylist[indexPath.row])
             }
             else {
@@ -151,6 +148,53 @@ extension HomeViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 116
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let totalRows = tableView.numberOfRows(inSection: indexPath.section)
+        if indexPath.row == (totalRows - 1) {
+            print("lastCell")
+            if playlistOrVideoSegmentedControl.selectedSegmentIndex == 0 {
+                if (self.playlists[indexPath.row].pageToken?.characters.count)! > 0 {
+                    print("---> token: \(self.playlists[indexPath.row].pageToken)")
+                    ytManager.fetchAllPlaylists(pageToken: self.playlists[indexPath.row].pageToken!) { (playlistsResult) in
+                        for playlist in playlistsResult {
+                            if playlist.playlistID != nil {
+                                self.playlists.append(playlist)
+                            }
+                        }
+                        self.videosTableView.reloadData()
+                    }
+                }
+            }
+            else if playlistOrVideoSegmentedControl.selectedSegmentIndex == 1 {
+                if searchingPlaylist {
+                    if (self.videosOnPlaylist[indexPath.row].pageToken?.characters.count)! > 0 {
+                        print("---> token: \(self.videosOnPlaylist[indexPath.row].pageToken)")
+                        ytManager.fetchAllVideosOnPlaylist(playlistID: self.videosOnPlaylist[indexPath.row].playlistID!, pageToken: self.videosOnPlaylist[indexPath.row].pageToken!, completion: { (videosResult) in
+                            for video in videosResult {
+                                if video.videoID != nil {
+                                    self.videosOnPlaylist.append(video)
+                                }
+                            }
+                            self.videosTableView.reloadData()
+                        })
+                    }
+                }
+                else {
+                    if (self.videos[indexPath.row].pageToken?.characters.count)! > 0 {
+                        ytManager.fetchAllVideosOnChannel(pageToken: self.videos[indexPath.row].pageToken!, completion: { (videosResult) in
+                            for video in videosResult {
+                                if video.videoID != nil {
+                                    self.videos.append(video)
+                                }
+                            }
+                            self.videosTableView.reloadData()
+                        })
+                    }
+                }
+            }
+        }
     }
 }
 

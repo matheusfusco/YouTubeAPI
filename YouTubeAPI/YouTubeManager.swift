@@ -22,7 +22,7 @@ class YouTubeManager: NSObject {
     static let searchPlayListsVideosURL = "https://www.googleapis.com/youtube/v3/playlistItems"
     
     //MARK: - YouTube Keys
-    static let API_KEY = "AIzaSyCgrzeJDjlOyzgCy20FattbrKbcE8vMOSU" // Youtube API Key
+    static let API_KEY = "AIzaSyCgrzeJDjlOyzgCy20FattbrKbcE8vMOSU" // Youtube API Key - Generated on 'Google Developer Console'
     static let CHANNEL_ID = "UCbNWIQcHEj6Y1g467UyPpBQ" //Pernambucanas - https://www.youtube.com/user/casaspernambucanas/videos
     
     //MARK: - Variables
@@ -32,73 +32,121 @@ class YouTubeManager: NSObject {
     
     
     //MARK: - Custom Methods
-    func fetchAllVideosOnChannel (completion: @escaping([VideoModel]) -> Void) {
+    func fetchAllVideosOnChannel (pageToken: String, completion: @escaping([VideoModel]) -> Void) {
         
-        let parameters = ["key": YouTubeManager.API_KEY,
+        var parameters = ["key": YouTubeManager.API_KEY,
                           "channelId": YouTubeManager.CHANNEL_ID,
                           "part": "snippet",
                           "order": "date",
-                          "maxResults": "5"]
+                          "maxResults": "15"]
+        if pageToken.characters.count > 0 {
+            parameters.updateValue(pageToken, forKey: "pageToken")
+        }
         
         self.videos.removeAll()
         
         manager.getFrom(YouTubeManager.searchAllVideosURL, parameters: parameters) { (result) in
-            print("\(result)")
             
-            let json = JSON(data: result as! Data)
-            let kind = (json["kind"].string)!
-            let videosArray = json["items"].arrayValue
-            
-            for video in videosArray {
-                let model = VideoModel(dataJSON: video, kind: kind)
-                print("--> Video:\(model.title)")
-                self.videos.append(model)
+            if (result as? Data) != nil {
+                print("--> is Data type")
+                let json = JSON(data: result as! Data)
+                let kind = (json["kind"].string)!
+                var pageToken : String = ""
+                if json["nextPageToken"].string != nil {
+                    pageToken = (json["nextPageToken"].string)!
+                }
+                let videosArray = json["items"].arrayValue
+                
+                for video in videosArray {
+                    let model = VideoModel(dataJSON: video, kind: kind, pageToken: pageToken)
+                    //print("--> Video:\(model.title)")
+                    self.videos.append(model)
+                }
+                completion(self.videos)
             }
-            completion(self.videos)
+            else {
+                print("--> Some error occurred!")
+                completion(self.videos)
+            }
+            
+            
+            
         }
     }
     
-    func fetchAllPlaylists (completion: @escaping([PlaylistModel]) -> Void) {
+    func fetchAllPlaylists (pageToken: String, completion: @escaping([PlaylistModel]) -> Void) {
         
-        let parameters = ["key" : YouTubeManager.API_KEY,
+        var parameters = ["key" : YouTubeManager.API_KEY,
                           "channelId" : YouTubeManager.CHANNEL_ID,
-                          "part" : "snippet"]
+                          "part" : "snippet",
+                          "maxResults": "5"]
+        if pageToken.characters.count > 0 {
+            parameters.updateValue(pageToken, forKey: "pageToken")
+        }
         
         self.playlists.removeAll()
         
         manager.getFrom(YouTubeManager.searchPlayListsURL, parameters: parameters) { (result) in
-            
-            let json = JSON(data: result as! Data)
-            let playlistsArray = json["items"].arrayValue
-            
-            for playlist in playlistsArray {
-                let model = PlaylistModel(dataJSON: playlist)
-                print("---> Playlist: \(model.title)")
-                self.playlists.append(model)
+            if (result as? Data) != nil {
+                print("--> is Data type")
+                let json = JSON(data: result as! Data)
+                let playlistsArray = json["items"].arrayValue
+                
+                var pageToken : String = ""
+                if json["nextPageToken"].string != nil {
+                    pageToken = (json["nextPageToken"].string)!
+                }
+                
+                for playlist in playlistsArray {
+                    let model = PlaylistModel(dataJSON: playlist, pageToken: pageToken)
+                    //print("---> Playlist: \(model.title)")
+                    self.playlists.append(model)
+                }
+                completion(self.playlists)
             }
-            completion(self.playlists)
+            else {
+                print("--> Some error occurred!")
+                completion(self.playlists)
+            }
+            
         }
     }
     
-    func fetchAllVideosOnPlaylist (playlistID: String, completion: @escaping([VideoModel]) -> Void) {
-        let parameters = ["key" : YouTubeManager.API_KEY,
+    func fetchAllVideosOnPlaylist (playlistID: String, pageToken: String, completion: @escaping([VideoModel]) -> Void) {
+        var parameters = ["key" : YouTubeManager.API_KEY,
                           "playlistId" : playlistID,
-                          "part" : "snippet"]
+                          "part" : "snippet",
+                          "maxResults": "5"]
+        if pageToken.characters.count > 0 {
+            parameters.updateValue(pageToken, forKey: "pageToken")
+        }
         
         self.videos.removeAll()
         
         manager.getFrom(YouTubeManager.searchPlayListsVideosURL, parameters: parameters) { (result) in
             
-            let json = JSON(data: result as! Data)
-            let kind = (json["kind"].string)!
-            let videosArray = json["items"].arrayValue
-            
-            for video in videosArray {
-                let model = VideoModel(dataJSON: video, kind: kind)
-                print("---> Video in Playlist: \(model.title)")
-                self.videos.append(model)
+            if (result as? Data) != nil {
+                print("--> is Data type")
+                let json = JSON(data: result as! Data)
+                let kind = (json["kind"].string)!
+                //let pageToken = (json["nextPageToken"].string)!
+                var pageToken : String = ""
+                if json["nextPageToken"].string != nil {
+                    pageToken = (json["nextPageToken"].string)!
+                }
+                let videosArray = json["items"].arrayValue
+                
+                for video in videosArray {
+                    let model = VideoModel(dataJSON: video, kind: kind, pageToken: pageToken)
+                    //print("---> Video in Playlist: \(model.title)")
+                    self.videos.append(model)
+                }
+                completion(self.videos)
             }
-            completion(self.videos)
+            else {
+                print("--> Some error occurred!")
+                completion(self.videos)
+            }
         }
     }
 }
