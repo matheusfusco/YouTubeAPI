@@ -49,14 +49,16 @@ class YouTubeManager: NSObject {
             
             if (result as? Data) != nil {
                 print("--> is Data type")
+                
                 let json = JSON(data: result as! Data)
                 let kind = (json["kind"].string)!
+                
                 var pageToken : String = ""
                 if json["nextPageToken"].string != nil {
                     pageToken = (json["nextPageToken"].string)!
                 }
-                let videosArray = json["items"].arrayValue
                 
+                let videosArray = json["items"].arrayValue
                 for video in videosArray {
                     let model = VideoModel(dataJSON: video, kind: kind, pageToken: pageToken)
                     //print("--> Video:\(model.title)")
@@ -90,13 +92,13 @@ class YouTubeManager: NSObject {
             if (result as? Data) != nil {
                 print("--> is Data type")
                 let json = JSON(data: result as! Data)
-                let playlistsArray = json["items"].arrayValue
                 
                 var pageToken : String = ""
                 if json["nextPageToken"].string != nil {
                     pageToken = (json["nextPageToken"].string)!
                 }
                 
+                let playlistsArray = json["items"].arrayValue
                 for playlist in playlistsArray {
                     let model = PlaylistModel(dataJSON: playlist, pageToken: pageToken)
                     //print("---> Playlist: \(model.title)")
@@ -129,13 +131,13 @@ class YouTubeManager: NSObject {
                 print("--> is Data type")
                 let json = JSON(data: result as! Data)
                 let kind = (json["kind"].string)!
-                //let pageToken = (json["nextPageToken"].string)!
+                
                 var pageToken : String = ""
                 if json["nextPageToken"].string != nil {
                     pageToken = (json["nextPageToken"].string)!
                 }
-                let videosArray = json["items"].arrayValue
                 
+                let videosArray = json["items"].arrayValue
                 for video in videosArray {
                     let model = VideoModel(dataJSON: video, kind: kind, pageToken: pageToken)
                     //print("---> Video in Playlist: \(model.title)")

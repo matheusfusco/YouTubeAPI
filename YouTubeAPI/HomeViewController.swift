@@ -43,18 +43,13 @@ class HomeViewController: UIViewController {
     
     //MARK: - IBActions
     @IBAction func segmentedControlValueChanged(_ sender: Any) {
-        switch playlistOrVideoSegmentedControl.selectedSegmentIndex {
-        case 0: //Playlists
+        
+        if playlistOrVideoSegmentedControl.selectedSegmentIndex == 0 {
             print("load playlists")
             searchingPlaylist = false
-            break
-            
-        case 1: //Videos
+        }
+        else {
             print("load videos")
-            break
-            
-        default:
-            break
         }
         self.videosTableView.reloadData()
     }
@@ -64,32 +59,37 @@ class HomeViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 
 //MARK: - TableView Delegate Methods
 extension HomeViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if playlistOrVideoSegmentedControl
-            .selectedSegmentIndex == 0 {
+        if playlistOrVideoSegmentedControl .selectedSegmentIndex == 0 {
             let selectedCell = tableView.cellForRow(at: indexPath) as! PlaylistTableViewCell
             //print("Selected Playlist: \(selectedCell.playlistTitleLabel.text)")
             
-            searchingPlaylist = true
+            self.searchingPlaylist = true
             self.waitingView.isHidden = false
             self.videosOnPlaylist.removeAll()
-            ytManager.fetchAllVideosOnPlaylist(playlistID: selectedCell.playlist.playlistID!, pageToken: "",completion: { (videosResult) in
+            
+            ytManager.fetchAllVideosOnPlaylist(playlistID: selectedCell.playlist.playlistID!, pageToken: "", completion: { (videosResult) in
                 //print("Playlist videos: \(videosResult)")
-                self.videosOnPlaylist = videosResult
+                for video in videosResult {
+                    if video.videoID != nil {
+                        self.videosOnPlaylist.append(video)
+                    }
+                }
+                
                 self.playlistOrVideoSegmentedControl.selectedSegmentIndex = 1
-                self.videosTableView.reloadData()
                 self.waitingView.isHidden = true
+                
+                self.videosTableView.reloadData()
             })
         }
-        else if playlistOrVideoSegmentedControl.selectedSegmentIndex == 1 {
+        else {
             let selectedCell = tableView.cellForRow(at: indexPath) as! VideoTableViewCell
             selectedCell.playerView.playVideo()
             print("Selected Video: \(selectedCell.video.videoID)")
@@ -101,13 +101,12 @@ extension HomeViewController : UITableViewDelegate {
 extension HomeViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch playlistOrVideoSegmentedControl.selectedSegmentIndex {
-        case 0: //Playlists
+        if playlistOrVideoSegmentedControl.selectedSegmentIndex == 0 {
             let playlistCell = tableView.dequeueReusableCell(withIdentifier: "playlistCell") as! PlaylistTableViewCell
             playlistCell.configurePlaylistInfo(playlists[indexPath.row])
             return playlistCell
-            
-        case 1: //Videos
+        }
+        else {
             let videoCell = tableView.dequeueReusableCell(withIdentifier: "videoCell") as! VideoTableViewCell
             if searchingPlaylist {
                 //print("videoID: \(videosOnPlaylist[indexPath.row].videoID)")
@@ -117,10 +116,6 @@ extension HomeViewController : UITableViewDataSource {
                 videoCell.configureVideoInfo(videos[indexPath.row])
             }
             return videoCell
-            
-        default:
-            let cell = UITableViewCell()
-            return cell
         }
     }
     
@@ -129,20 +124,17 @@ extension HomeViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch playlistOrVideoSegmentedControl.selectedSegmentIndex {
-        case 0: //Playlists
+        
+        if playlistOrVideoSegmentedControl.selectedSegmentIndex == 0 {
             return playlists.count
-            
-        case 1: //Videos
+        }
+        else {
             if searchingPlaylist {
                 return videosOnPlaylist.count
             }
             else{
                 return videos.count
             }
-            
-        default:
-            return 0
         }
     }
     
@@ -156,7 +148,7 @@ extension HomeViewController : UITableViewDataSource {
             print("lastCell")
             if playlistOrVideoSegmentedControl.selectedSegmentIndex == 0 {
                 if (self.playlists[indexPath.row].pageToken?.characters.count)! > 0 {
-                    print("---> token: \(self.playlists[indexPath.row].pageToken)")
+                    //print("---> token: \(self.playlists[indexPath.row].pageToken)")
                     ytManager.fetchAllPlaylists(pageToken: self.playlists[indexPath.row].pageToken!) { (playlistsResult) in
                         for playlist in playlistsResult {
                             if playlist.playlistID != nil {
@@ -167,10 +159,10 @@ extension HomeViewController : UITableViewDataSource {
                     }
                 }
             }
-            else if playlistOrVideoSegmentedControl.selectedSegmentIndex == 1 {
+            else {
                 if searchingPlaylist {
                     if (self.videosOnPlaylist[indexPath.row].pageToken?.characters.count)! > 0 {
-                        print("---> token: \(self.videosOnPlaylist[indexPath.row].pageToken)")
+                        //print("---> token: \(self.videosOnPlaylist[indexPath.row].pageToken)")
                         ytManager.fetchAllVideosOnPlaylist(playlistID: self.videosOnPlaylist[indexPath.row].playlistID!, pageToken: self.videosOnPlaylist[indexPath.row].pageToken!, completion: { (videosResult) in
                             for video in videosResult {
                                 if video.videoID != nil {
