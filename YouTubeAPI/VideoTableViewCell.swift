@@ -18,7 +18,7 @@ class VideoTableViewCell: UITableViewCell {
     @IBOutlet weak var playerView: YTPlayerView!
     @IBOutlet weak var ytIndicatorView: UIActivityIndicatorView!
     
-    var video = VideoModel()
+    var video = YouTubeModel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,13 +31,13 @@ class VideoTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureVideoInfo(_ video : VideoModel) {
+    func configureVideoInfo(_ video : YouTubeModel) {
         self.video = video
         
         playerView.delegate = self
         
         if let videoID = self.video.videoID {
-            playerView.load(withVideoId: videoID)
+            //self.playerView.load(withVideoId: videoID)
         }
         
         if let videoTitle = self.video.title {
@@ -95,5 +95,6 @@ extension VideoTableViewCell : YTPlayerViewDelegate {
     
     func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
         self.ytIndicatorView.stopAnimating()
+        self.playerView.playVideo()
     }
 }

@@ -12,7 +12,7 @@ import SDWebImage
 class PlaylistTableViewCell: UITableViewCell {
 
     //MARK: - Variables
-    var playlist = PlaylistModel()
+    var playlist = YouTubeModel()
     
     //MARK: - IBOutlets
     @IBOutlet weak var playlistDescriptionLabel: UILabel!
@@ -30,7 +30,7 @@ class PlaylistTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configurePlaylistInfo(_ playlist : PlaylistModel) {
+    func configurePlaylistInfo(_ playlist : YouTubeModel) {
         self.playlist = playlist
         
         if let playlistTitle = self.playlist.title {

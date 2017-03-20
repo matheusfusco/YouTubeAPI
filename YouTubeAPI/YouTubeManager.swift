@@ -16,139 +16,56 @@ import UIKit
 import SwiftyJSON
 
 class YouTubeManager: NSObject {
-    //MARK: - API URLs
-    static let searchAllVideosURL = "https://www.googleapis.com/youtube/v3/search"
-    static let searchPlayListsURL = "https://www.googleapis.com/youtube/v3/playlists"
-    static let searchPlayListsVideosURL = "https://www.googleapis.com/youtube/v3/playlistItems"
-    
-    //MARK: - YouTube Keys
-    static let API_KEY = "AIzaSyCgrzeJDjlOyzgCy20FattbrKbcE8vMOSU" // Youtube API Key - Generated on 'Google Developer Console'
-    static let CHANNEL_ID = "UCbNWIQcHEj6Y1g467UyPpBQ" //Pernambucanas - https://www.youtube.com/user/casaspernambucanas/videos
+    //MARK: - YouTube API Keys
+    let API_KEY = "AIzaSyCgrzeJDjlOyzgCy20FattbrKbcE8vMOSU" // Youtube API Key - Generated on 'Google Developer Console'
+    let CHANNEL_ID = "UCbNWIQcHEj6Y1g467UyPpBQ" //Pernambucanas - https://www.youtube.com/user/casaspernambucanas/videos
+    let MAX_RESULTS = "5"
     
     //MARK: - Variables
     let manager = APIManager()
-    var videos = [VideoModel]()
-    var playlists = [PlaylistModel]()
     
     
     //MARK: - Custom Methods
-    func fetchAllVideosOnChannel (pageToken: String, completion: @escaping([VideoModel]) -> Void) {
-        
-        var parameters = ["key": YouTubeManager.API_KEY,
-                          "channelId": YouTubeManager.CHANNEL_ID,
-                          "part": "snippet",
-                          "order": "date",
-                          "maxResults": "15"]
-        if pageToken.characters.count > 0 {
-            parameters.updateValue(pageToken, forKey: "pageToken")
-        }
-        
-        self.videos.removeAll()
-        
-        manager.getFrom(YouTubeManager.searchAllVideosURL, parameters: parameters) { (result) in
-            
-            if (result as? Data) != nil {
-                print("--> is Data type")
-                
+    func fetchYouTubeData (urlAPI: API, videoType: videoType, parameters: parameter, pageToken: String, playlist: String, completion: @escaping(Any?) -> Void) {
+        let params = transformToParameterFormat(param: parameters, playlistID: playlist, pageToken: pageToken)
+        //self.models.removeAll()
+        manager.getFrom(urlAPI.rawValue, parameters: params) { (result) in
+            if let error = result as? Error {
+                print("Error: \(error.localizedDescription)")
+                completion(error)
+            }
+            else if (result as? Data) != nil {
                 let json = JSON(data: result as! Data)
-                let kind = (json["kind"].string)!
-                
-                var pageToken : String = ""
-                if json["nextPageToken"].string != nil {
-                    pageToken = (json["nextPageToken"].string)!
-                }
-                
-                let videosArray = json["items"].arrayValue
-                for video in videosArray {
-                    let model = VideoModel(dataJSON: video, kind: kind, pageToken: pageToken)
-                    //print("--> Video:\(model.title)")
-                    self.videos.append(model)
-                }
-                completion(self.videos)
+                let ytModel = YouTube(dataJSON: json)
+                completion(ytModel)
             }
             else {
-                print("--> Some error occurred!")
-                completion(self.videos)
+                print("Something else was returned: \(result.debugDescription)")
+                completion(result)
             }
-            
-            
-            
         }
     }
     
-    func fetchAllPlaylists (pageToken: String, completion: @escaping([PlaylistModel]) -> Void) {
-        
-        var parameters = ["key" : YouTubeManager.API_KEY,
-                          "channelId" : YouTubeManager.CHANNEL_ID,
-                          "part" : "snippet",
-                          "maxResults": "5"]
+    private func transformToParameterFormat(param: parameter, playlistID : String, pageToken: String) -> Dictionary <String, Any> {
+        var defaultParameters = ["key": API_KEY, "part": "snippet", "maxResults": MAX_RESULTS]
         if pageToken.characters.count > 0 {
-            parameters.updateValue(pageToken, forKey: "pageToken")
+            defaultParameters.updateValue(pageToken, forKey: "pageToken")
         }
-        
-        self.playlists.removeAll()
-        
-        manager.getFrom(YouTubeManager.searchPlayListsURL, parameters: parameters) { (result) in
-            if (result as? Data) != nil {
-                print("--> is Data type")
-                let json = JSON(data: result as! Data)
-                
-                var pageToken : String = ""
-                if json["nextPageToken"].string != nil {
-                    pageToken = (json["nextPageToken"].string)!
-                }
-                
-                let playlistsArray = json["items"].arrayValue
-                for playlist in playlistsArray {
-                    let model = PlaylistModel(dataJSON: playlist, pageToken: pageToken)
-                    //print("---> Playlist: \(model.title)")
-                    self.playlists.append(model)
-                }
-                completion(self.playlists)
-            }
-            else {
-                print("--> Some error occurred!")
-                completion(self.playlists)
-            }
+        switch param {
+            case .allVideos:
+                defaultParameters.updateValue(CHANNEL_ID, forKey: "channelId")
+                defaultParameters.updateValue("date", forKey: "order")
+                return defaultParameters
             
-        }
-    }
-    
-    func fetchAllVideosOnPlaylist (playlistID: String, pageToken: String, completion: @escaping([VideoModel]) -> Void) {
-        var parameters = ["key" : YouTubeManager.API_KEY,
-                          "playlistId" : playlistID,
-                          "part" : "snippet",
-                          "maxResults": "5"]
-        if pageToken.characters.count > 0 {
-            parameters.updateValue(pageToken, forKey: "pageToken")
-        }
-        
-        self.videos.removeAll()
-        
-        manager.getFrom(YouTubeManager.searchPlayListsVideosURL, parameters: parameters) { (result) in
-            
-            if (result as? Data) != nil {
-                print("--> is Data type")
-                let json = JSON(data: result as! Data)
-                let kind = (json["kind"].string)!
+            case .allPlaylists:
+                defaultParameters.updateValue(CHANNEL_ID, forKey: "channelId")
+                return defaultParameters
                 
-                var pageToken : String = ""
-                if json["nextPageToken"].string != nil {
-                    pageToken = (json["nextPageToken"].string)!
+            case .allVideosOnPlaylist:
+                if playlistID.characters.count > 0 {
+                    defaultParameters.updateValue(playlistID, forKey: "playlistId")
                 }
-                
-                let videosArray = json["items"].arrayValue
-                for video in videosArray {
-                    let model = VideoModel(dataJSON: video, kind: kind, pageToken: pageToken)
-                    //print("---> Video in Playlist: \(model.title)")
-                    self.videos.append(model)
-                }
-                completion(self.videos)
-            }
-            else {
-                print("--> Some error occurred!")
-                completion(self.videos)
-            }
+                return defaultParameters
         }
     }
 }

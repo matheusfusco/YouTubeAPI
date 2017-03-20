@@ -1,48 +1,65 @@
 //
-//  YoutubeVideoModel.swift
+//  YouTubeModel.swift
 //  YouTubeAPI
 //
-//  Created by Matheus Pacheco Fusco on 13/03/17.
+//  Created by Matheus Pacheco Fusco on 17/03/17.
 //  Copyright © 2017 Matheus Pacheco Fusco. All rights reserved.
 //
 
 import UIKit
 import SwiftyJSON
 
-class VideoModel : NSObject {
+class YouTubeModel: NSObject {
+    
+//    enum type {
+//        case videoOnChannel
+//        case videoOnPlaylist
+//        case playlistOnChannel
+//    }
+    
+    var playlistID : String?
     var videoID : String?
     var title : String?
-    var descr: String?
+    var descr : String?
     var thumbnail : String?
-    var pageToken : String?
-    var playlistID : String?
     
-    override init() {
+    override init () {
+        playlistID = ""
         videoID = ""
         title = ""
         descr = ""
         thumbnail = ""
-        pageToken = ""
-        playlistID = ""
     }
     
-    required init(dataJSON: JSON, kind: String, pageToken: String) {
+    required init(dataJSON: JSON, videoType: videoType) {
+        super.init()
         
-        if kind == "youtube#searchListResponse" {
+        switch videoType {
+        case .videoOnChannel:
             if dataJSON["id"]["videoId"].string != nil {
                 videoID = (dataJSON["id"]["videoId"].string)!
             }
-        }
-        else if kind == "youtube#playlistItemListResponse" {
+            break
+            
+        case .videoOnPlaylist:
             if dataJSON["snippet"]["resourceId"]["videoId"].string != nil {
                 videoID = (dataJSON["snippet"]["resourceId"]["videoId"].string)!
             }
             playlistID = (dataJSON["snippet"]["playlistId"].string)!
+            break
+            
+        case .playlistOnChannel:
+            if dataJSON["id"].string != nil {
+                playlistID = (dataJSON["id"].string)!
+            }
+            break
+            
+        case .none:
+            break
         }
         
         title = (dataJSON["snippet"]["title"].string)!
         descr = (dataJSON["snippet"]["description"].string)!
-        self.pageToken = pageToken
         guard let thumb = dataJSON["snippet"]["thumbnails"]["high"]["url"].string else {
             print("---> sem thumbnail")
             return
